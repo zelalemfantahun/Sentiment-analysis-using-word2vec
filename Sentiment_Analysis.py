@@ -9,7 +9,7 @@ import datetime
 from sklearn.naive_bayes import GaussianNB
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-
+from sklearn.externals import joblib
 NB_model = GaussianNB()
 
 train = pd.read_csv("/home/zelalem/Downloads/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
@@ -110,6 +110,10 @@ testDataVecs = getAvgFeatureVecs(clean_test_reviews, model, num_features)
 
 print("Fitting Naive Bayes Classifier to training data....")
 NB_model = NB_model.fit(trainDataVecs, train["sentiment"])
+# Storing GaussianNB model on a disk
+joblib.dump(NB_model, 'NB_trained_Sentiment_analyzer.pkl')
+# and later you can load it
+#clf = joblib.load('filename.pkl')
 
 # Predicting the sentiment values for test data and saving the results in a csv file
 result = NB_model.predict(testDataVecs)
