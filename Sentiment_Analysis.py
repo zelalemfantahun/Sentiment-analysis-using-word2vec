@@ -44,9 +44,6 @@ for review in train["review"]:
 
 print("Training word2vec model....")
 
-
-
-
 def define_model():
 
     global model, num_features
