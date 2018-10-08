@@ -113,7 +113,7 @@ NB_model = NB_model.fit(trainDataVecs, train["sentiment"])
 # Storing GaussianNB model on a disk
 joblib.dump(NB_model, 'NB_trained_Sentiment_analyzer.pkl')
 # and later you can load it
-#clf = joblib.load('filename.pkl')
+#NB_model = joblib.load('NB_trained_Sentiment_analyzer.pkl')
 
 # Predicting the sentiment values for test data and saving the results in a csv file
 result = NB_model.predict(testDataVecs)
