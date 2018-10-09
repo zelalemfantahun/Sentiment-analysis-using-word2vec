@@ -12,8 +12,8 @@ warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 from sklearn.externals import joblib
 NB_model = GaussianNB()
 
-train = pd.read_csv("/home/zelalem/Downloads/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
-test = pd.read_csv("/home/zelalem/Downloads/input/testData.tsv",header=0, delimiter="\t", quoting=3)
+train = pd.read_csv("/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
+test = pd.read_csv("/input/testData.tsv",header=0, delimiter="\t", quoting=3)
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 
