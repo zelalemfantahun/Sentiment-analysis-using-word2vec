@@ -4,7 +4,7 @@ Dataset
 
 The labeled training set. The file is tab-delimited and has a header row followed by 25,000 rows containing an id, sentiment, and text for each review. 
 
-word2vec
+word2vec. The data can be found here https://www.kaggle.com/varun08/imdb-dataset/downloads/imdb-dataset.zip/1
 
 **sentences** : iterable of iterables, optional
             The sentences iterable can be simply a list of lists of tokens
