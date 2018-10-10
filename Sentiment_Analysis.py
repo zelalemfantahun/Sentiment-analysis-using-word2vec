@@ -11,9 +11,10 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 from sklearn.externals import joblib
 NB_model = GaussianNB()
+import sys
 
-train = pd.read_csv("/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
-test = pd.read_csv("/input/testData.tsv",header=0, delimiter="\t", quoting=3)
+train = pd.read_csv("/home/zelalem/Downloads/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
+test = pd.read_csv("/home/zelalem/Downloads/input/testData.tsv",header=0, delimiter="\t", quoting=3)
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 
@@ -46,11 +47,18 @@ print("Training word2vec model....")
 
 def define_model():
 
+
     global model, num_features
-    num_features = 300  # Word vector dimensionality
-    min_word_count = 40 # Ignores all words with total frequency lower than this.
-    num_workers = 4     # Number of parallel threads
-    context = 10        # Maximum distance between the current and predicted word within a sentence.
+
+    num_features = sys.argv[1]
+    num_features = int(num_features)
+    min_word_count = sys.argv[2]
+    min_word_count = int(min_word_count)
+    num_workers = sys.argv[3]
+    num_workers = int(num_workers)
+    context = sys.argv[4]
+    context= int(context)
+
     downsampling = 1e-3 # (0.001) Downsample setting for frequent words
     model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count=min_word_count, window=context, sample=downsampling)
     model.init_sims(replace=True)
@@ -104,7 +112,7 @@ trainDataVecs = getAvgFeatureVecs(clean_train_reviews, model, num_features)
 clean_test_reviews = []
 for review in test["review"]:
     clean_test_reviews.append(review_wordlist(review, remove_stopwords=True))
-
+# Accept a sentence and tokenized it
 testDataVecs = getAvgFeatureVecs(clean_test_reviews, model, num_features)
 
 

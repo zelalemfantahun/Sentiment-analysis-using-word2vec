@@ -2,7 +2,7 @@
 
 Dataset
 
-The labeled training set. The file is tab-delimited and has a header row followed by 25,000 rows containing an id, sentiment, and text for each review. The data can be found here https://www.kaggle.com/varun08/imdb-dataset/downloads/imdb-dataset.zip/1
+The labeled training set. The file is tab-delimited and has a header row followed by 25,000 rows containing an id, sentiment, and text for each review. The data can be found here  https://www.kaggle.com/varun08/imdb-dataset/downloads/imdb-dataset.zip/1
 
 word2vec Parameters:
 
