@@ -126,4 +126,3 @@ result = NB_model.predict(testDataVecs)
 print (result)
 output = pd.DataFrame(data={"id":test["id"], "sentiment":result})
 output.to_csv( "output.csv", index=False, quoting=3 )
-
