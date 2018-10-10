@@ -6,7 +6,7 @@ The labeled training set. The file is tab-delimited and has a header row followe
 
 word2vec. The data can be found here https://www.kaggle.com/varun08/imdb-dataset/downloads/imdb-dataset.zip/1
 
-**sentences** : iterable of iterables, optional
+sentences : iterable of iterables, optional
             The sentences iterable can be simply a list of lists of tokens
             
 workers : int, optional
