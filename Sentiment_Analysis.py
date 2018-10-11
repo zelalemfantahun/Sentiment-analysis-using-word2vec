@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import re
+import sys
 from nltk.corpus import stopwords
 import nltk.data
 from gensim.models import word2vec
@@ -9,12 +10,13 @@ import datetime
 from sklearn.naive_bayes import GaussianNB
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-from sklearn.externals import joblib
 NB_model = GaussianNB()
-import sys
 
-train = pd.read_csv("/home/zelalem/Downloads/input/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
-test = pd.read_csv("/home/zelalem/Downloads/input/testData.tsv",header=0, delimiter="\t", quoting=3)
+
+train = pd.read_csv("/home/zelalem/Downloads/input/labeledTrainData.csv")
+filePath = sys.argv[1]
+test = pd.read_csv(filePath)
+# test = pd.read_csv("/home/zelalem/Downloads/input/testData.csv")
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 
@@ -49,16 +51,14 @@ def define_model():
 
 
     global model, num_features
-
-    num_features = sys.argv[1]
+    num_features = sys.argv[2]
     num_features = int(num_features)
-    min_word_count = sys.argv[2]
+    min_word_count = sys.argv[3]
     min_word_count = int(min_word_count)
-    num_workers = sys.argv[3]
+    num_workers = sys.argv[4]
     num_workers = int(num_workers)
-    context = sys.argv[4]
+    context = sys.argv[5]
     context= int(context)
-
     downsampling = 1e-3 # (0.001) Downsample setting for frequent words
     model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count=min_word_count, window=context, sample=downsampling)
     model.init_sims(replace=True)
@@ -96,41 +96,28 @@ def getAvgFeatureVecs(reviews, model, num_features):
         # Printing a status message every 1000th review
         if counter % 1000 == 0:
             print("Review %d of %d" % (counter, len(reviews)))
-
         reviewFeatureVecs[counter] = featureVecMethod(review, model, num_features)
         counter = counter + 1
 
     return reviewFeatureVecs
 
+
 clean_train_reviews = []
 for review in train['review']:
     clean_train_reviews.append(review_wordlist(review, remove_stopwords=True))
-
 trainDataVecs = getAvgFeatureVecs(clean_train_reviews, model, num_features)
 
 # Calculating average feature vactors for test set
 clean_test_reviews = []
 for review in test["review"]:
     clean_test_reviews.append(review_wordlist(review, remove_stopwords=True))
-# Accept a sentence and tokenized it
 testDataVecs = getAvgFeatureVecs(clean_test_reviews, model, num_features)
-
 
 print("Fitting Naive Bayes Classifier to training data....")
 NB_model = NB_model.fit(trainDataVecs, train["sentiment"])
 # Storing GaussianNB model on a disk
-joblib.dump(NB_model, 'NB_trained_Sentiment_analyzer.pkl')
-# and later you can load it
-#NB_model = joblib.load('NB_trained_Sentiment_analyzer.pkl')
-
-# Predicting the sentiment values for test data and saving the results in a csv file
+# joblib.dump(NB_model, 'NB_trained_Sentiment_analyzer.pkl')
+# NB_model = joblib.load('NB_trained_Sentiment_analyzer.pkl') #later you can load it
 result = NB_model.predict(testDataVecs)
-print (result)
-output = pd.DataFrame(data={"id":test["id"], "sentiment":result})
-output.to_csv( "output.csv", index=False, quoting=3 )
-
-    # Predicting the sentiment values for test data and saving the results in a csv file
-result = NB_model.predict(testDataVecs)
-print (result)
 output = pd.DataFrame(data={"id":test["id"], "sentiment":result})
 output.to_csv( "output.csv", index=False, quoting=3 )

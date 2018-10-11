@@ -1,7 +1,7 @@
 # Sentiment-analysis-using-word2vec
 
 Dataset
-
+=======
 The labeled training set. The file is tab-delimited and has a header row followed by 25,000 rows containing an id, sentiment, and text for each review. The data can be found here  https://www.kaggle.com/varun08/imdb-dataset/downloads/imdb-dataset.zip/1
 
 word2vec Parameters:
@@ -24,3 +24,7 @@ window : int, optional
 sample : float, optional
             The threshold for configuring which higher-frequency words are randomly downsampled,
             useful range is (0, 1e-5).
+            
+Usage
+
+python3.5 Sentiment_Analysis.py file_path/testData.csv size mine_count workers window
