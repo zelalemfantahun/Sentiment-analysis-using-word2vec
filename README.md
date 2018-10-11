@@ -27,4 +27,4 @@ sample : float, optional
             
 Usage
 
-python3.5 Sentiment_Analysis.py file_path/testData.csv size mine_count workers window
+python3.5 "Sentiment_Analysis.py" "file_path_to/testData.csv" "size" "mine_count" "workers" "window"
