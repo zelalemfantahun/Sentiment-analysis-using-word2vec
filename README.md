@@ -27,4 +27,13 @@ sample : float, optional
             
 Usage
 
+
 python3.5 "Sentiment_Analysis.py" "file_path_to/testData.csv" "size" "mine_count" "workers" "window"
+
+Sample setting values for the various parameters
+================================================
+num_features = 300  # Word vector dimensionality
+min_word_count = 40 # Minimum word count
+num_workers = 4     # Number of parallel threads
+context = 10        # Context window size
+downsampling = 1e-3 # (0.001) Downsample setting for frequent words
